@@ -1,24 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 class Caesar():
-    key = 'aáàạảãăắằặẳẵâấầậẩẫbcdđeéẹẻẽêếềệểễfghiíìịỉĩjklmnoóòọỏõôốồộổỗơớờợởỡpqrstuúùụủũưứừựửữvwxyýỳỵỷỹAÁÀẠẢÃĂẮẰẶẲẴÂẤẦẬẨẪBCDĐEÉẸẺẼÊẾỀỆỂỄFGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỤỦŨƯỨỪỰỬỮVWXYÝỲỴỶỸ0123456789`~!@#$%^&*()'
+    key = u" aáàạảãăắằặẳẵâấầậẩẫbcdđeéẹẻẽêếềệểễfghiíìịỉĩjklmnoóòọỏõôốồộổỗơớờợởỡpqrstuúùụủũưứừựửữvwxyýỳỵỷỹAÁÀẠẢÃĂẮẰẶẲẴÂẤẦẬẨẪBCDĐEÉẸẺẼÊẾỀỆỂỄFGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỤỦŨƯỨỪỰỬỮVWXYÝỲỴỶỸ0123456789`~!@#$%^&*()"
 
     def encrypt(self, n, plaintext):
         """Encrypt the string and return the ciphertext"""
-        result = ''
+        result = "".encode("utf8")
 
         for l in plaintext:
-            try:
-                i = (self.key.index(l) + n) % len(self.key)
-                result += self.key[i]
-            except ValueError:
-                result += l
+            i = (self.key.index(l) + n) % len(self.key)
+            result += self.key[i]
+
         return result
 
 
     def decrypt(self, n, ciphertext):
         """Decrypt the string and return the plaintext"""
-        result = ''
+        result = "".encode("utf8")
 
         for l in ciphertext:
             try:
@@ -35,11 +33,12 @@ class Caesar():
         encrypted = self.encrypt(n, plaintext)
         decrypted = self.decrypt(n, encrypted)
 
-        print('Rotation: ', n)
-        print('Plaintext: ', plaintext)
-        print('Encrytped: ', encrypted)
-        print('Decrytped: ', decrypted)
+        print 'Rotation: ' + str(n)
+        print 'Plaintext: ' + plaintext.encode("utf8")
+        print 'Encrytped: ' + encrypted
+        print 'Decrytped: ' + decrypted.encode("utf8")
 
 if __name__ == '__main__':
     caesar = Caesar()
-    caesar.show_result("Xin Chào Việt Nam", 5)
+    caesar.show_result(u"Xin Chào Việt Nam", 5)
+
