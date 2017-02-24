@@ -7,45 +7,56 @@ namespace Caesar
 {
     class CaesarCipher : Tools
     {
-        public string Encrypt(string input, string shift)
+        //Function for Encrypt
+        public string Encrypt(string plaintext, string character, int shift, int length)
         {
-            int shiftNumber = int.Parse(shift);
-            StringBuilder ciphered = new StringBuilder(input.Length);
+            char[] plain = plaintext.ToCharArray();
+            char[] chartext = character.ToCharArray();
 
-            foreach (char c in input)
+            for (int i = 0; i < length; i++)
             {
-                if (char.IsLetter(c))
+                for (int j = 0; j < chartext.Length; j++)
                 {
-                    ciphered.Append(ShiftCharacter(c, shiftNumber));
-                }
-                else
-                {
-                    ciphered.Append(c);
+                    if (j <= chartext.Length - shift)
+                    {
+                        if (plain[i] == chartext[j])
+                        {
+                            plain[i] = chartext[j + shift];
+                            break;
+                        }
+                    }
+                    else if (plain[i] == chartext[j])
+                    {
+                        plain[i] = chartext[j - (chartext.Length - shift + 1)];
+                    }
                 }
             }
-
-            return ciphered.ToString();
+            return new string(plain);
         }
 
-
-        public string Decrypt(string input, string shift)
+        //Function for Decrypt
+        public string Decrypt(string crypttext, string character, int shift, int length)
         {
-            int shiftNumber = int.Parse(shift);
-            StringBuilder deciphered = new StringBuilder(input.Length);
+            char[] cipher = crypttext.ToCharArray();
+            char[] chartext = character.ToCharArray();
 
-            foreach (char c in input)
+            for (int i = 0; i < cipher.Length; i++)
             {
-                if (char.IsLetter(c))
+                for (int j = 0; j < chartext.Length; j++)
                 {
-                    deciphered.Append(UnShiftCharacter(c, shiftNumber));
-                }
-                else
-                {
-                    deciphered.Append(c);
+                    if (j >= shift && cipher[i] == chartext[j])
+                    {
+                        cipher[i] = chartext[j - shift];
+                        break;
+                    }
+                    if (cipher[i] == chartext[j] && j < shift)
+                    {
+                        cipher[i] = chartext[(chartext.Length - shift + 1) + j];
+                        break;
+                    }
                 }
             }
-
-            return deciphered.ToString();
+            return new string(cipher);
         }
     }
 }

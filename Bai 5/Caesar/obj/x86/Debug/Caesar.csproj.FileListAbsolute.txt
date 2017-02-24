@@ -5,3 +5,5 @@ c:\users\m3\documents\visual studio 2010\Projects\Caesar\Caesar\obj\x86\Debug\Ca
 c:\users\m3\documents\visual studio 2010\Projects\Caesar\Caesar\obj\x86\Debug\Caesar.csproj.GenerateResource.Cache
 c:\users\m3\documents\visual studio 2010\Projects\Caesar\Caesar\obj\x86\Debug\Caesar.exe
 c:\users\m3\documents\visual studio 2010\Projects\Caesar\Caesar\obj\x86\Debug\Caesar.pdb
+C:\Users\M3\documents\visual studio 2010\Projects\Caesar\Caesar\obj\x86\Debug\Caesar.csprojResolveAssemblyReference.cache
+C:\Users\M3\Documents\Visual Studio 2010\Projects\Caesar\Caesar\bin\Debug\Caesar.exe.config

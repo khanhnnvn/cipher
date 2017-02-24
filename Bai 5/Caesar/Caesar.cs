@@ -28,7 +28,73 @@ namespace Caesar
             Application.Exit();
         }
 
-        private void alphabetToolStripMenuItem_Click(object sender, EventArgs e)
+        //Button for Encrypt
+        private void buttonEncrypt_Click(object sender, EventArgs e)
+        {
+            string plainText = textBoxPlaintext.Text.Trim();
+            string shiftText = textBoxShift.Text.Trim();
+            //int shiftInt = int.Parse(textBoxShift.Text.Trim());
+            string charaterText = textBoxCharacter.Text.Trim();
+            int lengthText = plainText.Length;
+            if (plainText == "" || shiftText == null || charaterText == "")
+                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                try
+                {
+                    textBoxCiphertext.Text = objCipher.Encrypt(plainText, charaterText, int.Parse(shiftText), lengthText);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        // Button Decrypt
+        private void buttonDecrypt_Click(object sender, EventArgs e)
+        {
+            string cryptText = textBoxCiphertext.Text.Trim();
+            string shiftText = textBoxShift.Text.Trim();
+            string charaterText = textBoxCharacter.Text.Trim();
+            int lengthText = cryptText.Length;
+            if (cryptText == "" || shiftText == null || charaterText == "")
+                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                try
+                {
+                    textBoxPlaintext.Text = objCipher.Decrypt(cryptText, charaterText, int.Parse(shiftText), lengthText);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            
+        }
+
+       
+        //Count length character realtime
+        private void textBoxCharacter_TextChanged(object sender, EventArgs e)
+        {
+            textBoxCountCharacter.Text = textBoxCharacter.Text.Trim().Length.ToString();
+        }
+
+        //Count length plain text realtime
+        private void textBoxPlaintext_TextChanged(object sender, EventArgs e)
+        {
+            textBoxPlainCount.Text = textBoxPlaintext.Text.Trim().Length.ToString();
+        }
+
+        //Count length cripher text realtime
+        private void textBoxCiphertext_TextChanged(object sender, EventArgs e)
+        {
+            textBoxCripherCount.Text = textBoxCiphertext.Text.Trim().Length.ToString();
+        }
+
+        //Menu Open character file
+        private void characterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFiledialog = new OpenFileDialog();
             openFiledialog.Filter = "Text Files|*.txt";
@@ -36,58 +102,13 @@ namespace Caesar
             {
                 string alphabet = File.ReadAllText(openFiledialog.FileName);
                 textBoxCharacter.Text = alphabet;
-                objCipher.Character = alphabet;
-                objCipher.CountCharater = alphabet.Length;
-                
-                MessageBox.Show("Number: "+alphabet.Length.ToString(), "Number of characters", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //MessageBox.Show("Number: " + alphabet.Length.ToString(), "Number of characters", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void buttonEncrypt_Click(object sender, EventArgs e)
-        {
-            string plainText = textBoxPlaintext.Text.Trim();
-            string keyText = textBoxShift.Text.Trim();
-            textBoxInputCount.Text = plainText.Length.ToString();
-
-            if (plainText == "" || keyText == "")
-                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                try
-                {
-                    textBoxCiphertext.Text = objCipher.Encrypt(plainText, keyText);
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            textBoxOutputCount.Text = textBoxCiphertext.Text.Trim().Length.ToString();
-        }
-
-        private void buttonDecrypt_Click(object sender, EventArgs e)
-        {
-            string cipherText = textBoxCiphertext.Text.Trim();
-            string keyText = textBoxShift.Text.Trim();
-            textBoxInputCount.Text = cipherText.Length.ToString();
-
-            if (cipherText == "" || keyText == "")
-                MessageBox.Show("Please fill data on cipher text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                try
-                {
-                    textBoxPlaintext.Text = objCipher.Decrypt(cipherText, keyText);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void plaintextToolStripMenuItem_Click(object sender, EventArgs e)
+        //Menu Open Plain text file
+        private void plainTextToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog openFiledialog = new OpenFileDialog();
             openFiledialog.Filter = "Text Files|*.txt";
@@ -95,20 +116,80 @@ namespace Caesar
             {
                 string alphabet = File.ReadAllText(openFiledialog.FileName);
                 textBoxPlaintext.Text = alphabet;
-                textBoxInputCount.Text = alphabet.Length.ToString();
-                //MessageBox.Show("Number: " + alphabet.Length.ToString(), "Number of characters", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //Meunu Open Cipher text file
+        private void cipherTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string poem = textBoxPlaintext.Text.Trim();
-            long countinput = long.Parse(textBoxInputCount.Text.Trim());
-
-            Dictionary<char, long> freqs = objCipher.letterFreqs(poem);
-            foreach (char k in freqs.Keys)
+            OpenFileDialog openFiledialog = new OpenFileDialog();
+            openFiledialog.Filter = "Text Files|*.txt";
+            if (openFiledialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                textBox1.AppendText(string.Format("Character '{0}' occurs {1:N} times {2:0.###E-000} \n", k, freqs[k], ((float)freqs[k] * 100) / (float)countinput));
+                string ciphertext = File.ReadAllText(openFiledialog.FileName);
+                textBoxCiphertext.Text = ciphertext;
+            }
+        }
+
+
+        //Menu exit application
+        private void exitToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+        private void buttonFreqPlain_Click(object sender, EventArgs e)
+        {
+            string input = textBoxPlaintext.Text.Trim();
+            if (input == "")
+                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                try
+                {
+                    textBoxFreqPlain.Text = objCipher.Frequency(input);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonFreqCiph_Click(object sender, EventArgs e)
+        {
+            string input = textBoxCiphertext.Text.Trim();
+            if (input == "")
+                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                try
+                {
+                    textBoxFreqCiph.Text = objCipher.Frequency(input);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonWordFreq_Click(object sender, EventArgs e)
+        {
+            string input = textBoxPlaintext.Text.Trim();
+            if (input == "")
+                MessageBox.Show("Please fill data on plain text and key box", "Incomplete Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                try
+                {
+                    textBoxFreqWord.Text = objCipher.WordFrequency(input);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
