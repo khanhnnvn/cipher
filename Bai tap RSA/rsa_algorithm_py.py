@@ -1,5 +1,5 @@
 #
-# Sample implementation of RSA algorithm
+# RSA algorithm
 # rsa_algorithm.py
 # Author: Khanh Nguyen -- khanhnnvn@gmail.com
 #
